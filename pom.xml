@@ -22,5 +22,6 @@
 		<module>weixin</module>
 		<module>commons</module>
 		<module>subscribe</module>
+		<module>unsubscribe</module>
 	</modules>
 </project>
