@@ -1,4 +1,4 @@
-package com.hong.weixin.service;
+package com.hong.commons.service;
 
 public interface TokenManager {
 

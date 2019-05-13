@@ -16,6 +16,7 @@ import org.springframework.data.redis.listener.Topic;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 import com.hong.commons.domain.InMessage;
+import com.hong.commons.domain.ResponseToken;
 import com.hong.commons.domain.event.EventInMessage;
 import com.hong.commons.service.JsonRedisSerializer;
 
@@ -51,10 +52,17 @@ public interface EventListenerConfig extends CommandLineRunner, DisposableBean {
 		@Autowired RedisConnectionFactory redisConnectionFactory) {
 		RedisTemplate<String, InMessage> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);
-		
 		template.setValueSerializer(new JsonRedisSerializer());
-			//template.setDefaultSerializer(new JsonRedisSerializer());
+		return template;
+	}
+	
+	@Bean
+	public default RedisTemplate <String ,ResponseToken> tokenRedisTemplate(
+			@Autowired RedisConnectionFactory redisConnectionFactory){ 
 		
+		RedisTemplate<String, ResponseToken> template = new RedisTemplate<>();
+		template.setConnectionFactory(redisConnectionFactory);
+		template.setValueSerializer(new JsonRedisSerializer());
 		return template;
 	}
 	
