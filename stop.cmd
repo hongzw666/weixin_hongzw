@@ -6,4 +6,3 @@ mvn spring-boot:stop
 
 cd ..\unsubscribe
 mvn spring-boot:stop
-
