@@ -1,4 +1,4 @@
-package com.hong.weixin.service;
+package com.hong.commons.service;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -65,27 +65,39 @@ public class WeixinProxy {
 
 	public void sendText(String account, String openId, String content) {
 		TextOutMessage msg = new TextOutMessage(openId, content);
-		// 获取令牌
-		String token = this.tokenManager.getToken(account);
 		try {
-			// 转换消息对象为JSON
 			String json = this.objectMapper.writeValueAsString(msg);
-			// 发送消息
-			String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token;
-			HttpRequest request = HttpRequest.newBuilder(URI.create(url))//
-					.POST(BodyPublishers.ofString(json, Charset.forName("UTF-8")))// POST方式发送
-					.build();
-
-			// 异步方式发送请求
-			CompletableFuture<HttpResponse<String>> future//
-					= client.sendAsync(request, BodyHandlers.ofString(Charset.forName("UTF-8")));
-			future.thenAccept(response -> {
-				String body = response.body();
-				LOG.trace("发送客服消息返回的内容 : \n{}", body);
-			});
+			String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=";
+			post(url, json);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			LOG.error("通过客服接口发送出现问题: " + e.getLocalizedMessage(), e);
 		}
 	}
 
+	public void saveMenu(String json) {
+
+		String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=";
+		this.post(url, json);
+	}
+
+	public void post(String url, String json) {
+		
+		LOG.trace("POST数据到微信公众号的消息:\n{} ", json);
+		String token = this.tokenManager.getToken(null);
+		try {
+			url = url + token;
+			HttpRequest request = HttpRequest.newBuilder(URI.create(url))
+					.POST(BodyPublishers.ofString(json, Charset.forName("UTF-8"))).build();
+
+			CompletableFuture<HttpResponse<String>> future = client.sendAsync(request,
+					BodyHandlers.ofString(Charset.forName("UTF-8")));
+			future.thenAccept(response -> {
+				String body = response.body();
+
+				LOG.trace("POST数据到微信公众号返回的内容 : \n{}", body);
+			});
+		} catch (Exception e) {
+			LOG.error("POST数据到微信公众号出现问题: " + e.getLocalizedMessage(), e);
+		}
+	}
 }

@@ -7,7 +7,7 @@ import com.hong.commons.domain.User;
 import com.hong.commons.domain.event.EventInMessage;
 import com.hong.commons.processors.EventMessageProcessor;
 import com.hong.commons.repository.UserRepository;
-import com.hong.weixin.service.WeixinProxy;
+import com.hong.commons.service.WeixinProxy;
 
 @Service("subscribeMessageProcessor")
 public class SubscribeEventMessageProcessor implements EventMessageProcessor {
