@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -35,7 +36,27 @@ public class Menu {
 	private String mediaId;
 	private String appId;
 	private String pagePath;
+	
+	@Transient
+	private boolean active;
+	@Transient
+	private boolean show;
+	public boolean isActive() {
+		return active;
+	}
 
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isShow() {
+		return show;
+	}
+
+	public void setShow(boolean show) {
+		this.show = show;
+	}
+	
 	public String getId() {
 		return id;
 	}

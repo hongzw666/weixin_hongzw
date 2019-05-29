@@ -30,15 +30,15 @@ public class WeixinProxy {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	private HttpClient client = HttpClient.newBuilder()//
-			.version(Version.HTTP_1_1)// HTTP 1.1
+	private HttpClient client = HttpClient.newBuilder() 
+			.version(Version.HTTP_1_1) 
 			.build();
 
 	public User getUser(String account, String openId) {
 		String token = this.tokenManager.getToken(account);
-		String url = "https://api.weixin.qq.com/cgi-bin/user/info"//
-				+ "?access_token=" + token//
-				+ "&openid=" + openId//
+		String url = "https://api.weixin.qq.com/cgi-bin/user/info" 
+				+ "?access_token=" + token 
+				+ "&openid=" + openId 
 				+ "&lang=zh_CN";
 
 		HttpRequest request = HttpRequest.newBuilder(URI.create(url))//
