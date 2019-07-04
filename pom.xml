@@ -25,5 +25,6 @@
 		<module>unsubscribe</module>
 		<module>self-menu</module>
 		<module>self_menu</module>
+		<module>library</module>
 	</modules>
 </project>
